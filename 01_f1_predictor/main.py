@@ -1,10 +1,14 @@
 import os
 from flask import Flask, render_template, request
 
-# 1. CREATE the app first
-app = Flask(__name__)
+# This correctly finds the templates folder next to this app.py
+base_dir = os.path.dirname(os.path.abspath(__file__))
+template_dir = os.path.join(base_dir, 'templates')
 
-# 2. DEFINE your data collection (the votes dictionary)
+# 1. CREATE the app first
+app = Flask(__name__, template_folder=template_dir)
+
+# 2. DEFINE your data collection
 votes = {"Lando": 0, "Oscar": 0}
 
 # 3. USE the app for routes
@@ -13,9 +17,12 @@ def home():
     prediction = None
     status = None  
     grid = None
+    driver = None # <--- ADDED: Initialize driver variable
     
     if request.method == 'POST':
+        driver = request.form.get('driver') # <--- ADDED: Capture driver name from dropdown
         grid = request.form.get('grid')
+        
         if grid:
             grid_num = int(grid)
             
@@ -33,7 +40,8 @@ def home():
     return render_template('index.html', 
                            prediction=prediction, 
                            status=status, 
-                           grid=grid)
+                           grid=grid,
+                           driver=driver) # <--- ADDED: Pass driver back to HTML
 
 @app.route('/battle')
 def battle():
