@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="fw-bold mb-4">
+        <span class="mclaren-text">🏎️</span> 
+        <span class="mclaren-text">McLaren Race Predictor</span>
+    </h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form method="POST" class="card p-4 shadow-sm border-0">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Select Driver:</label>
+                    <select name="driver" class="form-select">
+                        <option value="Lando Norris">Lando Norris</option>
+                        <option value="Oscar Piastri">Oscar Piastri</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Starting Position (Grid):</label>
+                    <input type="number" name="grid" class="form-control" min="1" max="20" required>
+                </div>
+
+                <button type="submit" class="btn mclaren-orange w-100 fw-bold">Predict Result</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            {% if prediction %}
+                <div class="card shadow-sm f1-card h-100">
+                    <div class="card-body">
+                        <h3 class="mclaren-text fw-bold">{{ status }}</h3>
+                        <hr>
+                        <p class="lead">
+                            For <strong>{{ driver }}</strong> starting <strong>P{{ grid }}</strong>:
+                        </p>
+                        <h4 class="text-dark">Predicted: {{ prediction }}</h4>
+                    </div>
+                </div>
+            {% else %}
+                <div class="h-100 d-flex align-items-center justify-content-center border rounded bg-light">
+                    <p class="text-muted">Enter race details to see the prediction.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a href="/battle" class="btn btn-link mclaren-text text-decoration-none fw-bold">
+            📊 View Teammate Battle (Norris vs Piastri)
+        </a>
+    </div>
+</div>
+{% endblock %}
